@@ -4,7 +4,46 @@ A real-time chat application built with Node.js, Express, Socket.IO, and Postgre
 
 ## Architecture
 
-![Architecture Diagram](https://github.com/ajeetraina/nodejs-postgres-chat-app/blob/main/docs/architecture.png)
+Our application follows a modern architecture with clear separation of concerns:
+
+```mermaid
+flowchart TB
+    subgraph Client
+        Browser["Web Browser"]
+        MobileApp["Mobile App (Future)"]
+    end
+    
+    subgraph Server["Node.js Server"]
+        Express["Express.js API"]
+        SocketIO["Socket.IO"]
+        Auth["Authentication"]
+        MessageHandler["Message Handler"]
+    end
+    
+    subgraph Database
+        PostgreSQL["PostgreSQL Database"]
+        subgraph Tables
+            Users["Users Table"]
+            Messages["Messages Table"]
+            Rooms["Chat Rooms Table"]
+        end
+    end
+    
+    Browser <--> Express
+    Browser <--> SocketIO
+    MobileApp <-.-> Express
+    MobileApp <-.-> SocketIO
+    
+    Express --> Auth
+    SocketIO --> MessageHandler
+    
+    Auth --> PostgreSQL
+    MessageHandler --> PostgreSQL
+    
+    PostgreSQL --- Users
+    PostgreSQL --- Messages
+    PostgreSQL --- Rooms
+```
 
 ## Features
 
@@ -192,4 +231,4 @@ docker-compose up -d
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
